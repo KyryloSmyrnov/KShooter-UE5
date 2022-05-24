@@ -47,7 +47,7 @@ void UKSHealthComponent::HealUpdate()
 {
     SetHealth(Health + HealCount);
 
-    if (FMath::IsNearlyEqual(Health, MaxHealth) && GetWorld())
+    if (IsHealthFull() && GetWorld())
         GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
 }
 
@@ -55,4 +55,16 @@ void UKSHealthComponent::SetHealth(float NewHealth)
 {
     Health = FMath::Clamp(NewHealth, 0.0f, MaxHealth);
     OnHealthChanged.Broadcast(Health);
+}
+
+bool UKSHealthComponent::TryToAddHealth(float HealthAmount)
+{
+    if(IsDead() || IsHealthFull()) return false;
+    SetHealth(Health + HealthAmount);
+    return true;
+}
+
+bool UKSHealthComponent::IsHealthFull()
+{
+    return FMath::IsNearlyEqual(Health, MaxHealth);
 }
