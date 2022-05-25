@@ -2,8 +2,21 @@
 
 
 #include "Weapon/KSRifleWeapon.h"
+#include "Weapon/Components/KSBaseWeaponFXComponent.h"
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
+
+AKSRifleWeapon::AKSRifleWeapon()
+{
+    RifleFXComponent = CreateDefaultSubobject<UKSBaseWeaponFXComponent>("RifleFXComponent");
+}
+
+void AKSRifleWeapon::BeginPlay()
+{
+    Super::BeginPlay();
+
+    check(RifleFXComponent);
+}
 
 void AKSRifleWeapon::StartShoot()
 {
@@ -15,6 +28,8 @@ void AKSRifleWeapon::StopShoot()
 {
     GetWorldTimerManager().ClearTimer(ShotTimerHandle);
 }
+
+
 
 void AKSRifleWeapon::MakeShot()
 {
@@ -34,15 +49,19 @@ void AKSRifleWeapon::MakeShot()
 
     FCollisionQueryParams CollisionQueryParams;
     CollisionQueryParams.AddIgnoredActor(GetOwner());
+    CollisionQueryParams.bReturnPhysicalMaterial = true;
 
     FHitResult HitResult;
     GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECollisionChannel::ECC_Visibility, CollisionQueryParams);
 
+
+    
     if (HitResult.bBlockingHit)
     {
         MakeDamage(HitResult);
-        DrawDebugLine(GetWorld(), GetBarrelWorldLocation(), HitResult.ImpactPoint, FColor::Red, false, 3.0f, 0, 3.0f);
-        DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 10.0f, 24, FColor::White, false, 5.0f);
+        //DrawDebugLine(GetWorld(), GetBarrelWorldLocation(), HitResult.ImpactPoint, FColor::Red, false, 3.0f, 0, 3.0f);
+        //DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 10.0f, 24, FColor::White, false, 5.0f);
+        RifleFXComponent->PlayImpactFX(HitResult);
     }
     else
     {

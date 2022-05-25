@@ -8,11 +8,10 @@ public class KShooter : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Niagara", "PhysicsCore" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
-
-		//Путь по умолчанию в котором будут искаться .h файлы
+		
 		//PublicIncludePath.AddRange(new string[] { "KShooter/Public" });
 
 		// Uncomment if you are using Slate UI

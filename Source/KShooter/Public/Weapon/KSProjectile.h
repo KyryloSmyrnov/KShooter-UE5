@@ -3,11 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/KSBaseWeaponFXComponent.h"
 #include "GameFramework/Actor.h"
 #include "KSProjectile.generated.h"
 
 class USphereComponent;
 class UProjectileMovementComponent;
+class UKSBaseWeaponFXComponent;
 
 UCLASS()
 class KSHOOTER_API AKSProjectile : public AActor
@@ -25,6 +27,9 @@ protected:
 
     UPROPERTY(VisibleAnywhere, Category="Weapon")
     UProjectileMovementComponent* MovementComponent;
+
+    UPROPERTY(VisibleAnywhere, Category="VFX")
+    UKSBaseWeaponFXComponent* ProjectileFXComponent;
     
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="Weapon")
     float DamageRadius = 200.0f;
